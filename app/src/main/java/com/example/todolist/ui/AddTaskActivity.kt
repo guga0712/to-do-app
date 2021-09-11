@@ -1,5 +1,6 @@
 package com.example.todolist.ui
 
+import android.app.Activity
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
@@ -56,12 +57,13 @@ class AddTaskActivity : AppCompatActivity(){
 
         binding.btnNewTask.setOnClickListener {
             //botao de add
-            val task = Task(
+                val task = Task(
                 title = binding.tilTitle.text ,
                 date = binding.tilDate.text,
                 hour = binding.tilHour.text
             )
             TaskDataSource.insertTask(task)
+            setResult(Activity.RESULT_OK)
             finish()
         }
     }
