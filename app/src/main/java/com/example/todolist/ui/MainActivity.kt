@@ -5,8 +5,10 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import com.example.todolist.databinding.ActivityMainBinding
 import com.example.todolist.datasource.TaskDataSource
+import com.example.todolist.model.Task
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,7 +36,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         adapter.listenerDelete = {
-            Log.e("delete", "insertListeners: ")
+            TaskDataSource.deleteTask(it)
+            updateList()
         }
     }
 
@@ -44,7 +47,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateList() {
-        adapter.submitList(TaskDataSource.getList())
+        val list = TaskDataSource.getList()
+        binding.includeEmpty.emptyState.visibility = if (list.isEmpty()) View.VISIBLE
+        else View.GONE
+        adapter.submitList(list)
     }
 
     companion object{
